@@ -3,7 +3,7 @@
 Xchel's logic challenges testing module
 """
 import pytest
-from challenges import decrypt_finder, matrix_parity
+from challenges import decrypt_finder, matrix_parity, factor_list
 
 decrypt_data = (
 (
@@ -83,6 +83,20 @@ matrix_data = (
     ),
 )
 
+factor_data = (
+        (2, [2]),
+        (3, [3]),
+        (-6, [-2, 3]),
+        (-10, [-2, 5]),
+        (18, [2, 3, 3]),
+        (28, [2, 2, 7]),
+        (32, [2, 2, 2, 2, 2]),
+        (36, [2, 2, 3, 3]),
+        (-73, [-73]),
+        (-210, [-2, 3, 5, 7]),
+        (-2849, [-7, 11, 37]),
+        )
+
 @pytest.mark.parametrize("string, expected", decrypt_data)
 def test_decrypt_finder(string, expected):
     """
@@ -96,3 +110,10 @@ def test_matrix_parity(matrix, expected):
     Function that tests matrix_parity using previously expected results.
     """
     assert matrix_parity(matrix) == expected
+
+@pytest.mark.parametrize("number, expected", factor_data)
+def test_factor_list(number, expected):
+    """
+    Function that tests factor_list using previously expected results.
+    """
+    assert factor_list(number) == expected

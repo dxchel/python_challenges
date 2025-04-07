@@ -66,3 +66,36 @@ def matrix_parity(matrix: str) -> str:
     if sum(row_sum) == sum(column_sum) == 1:
         return f"Change ({column_sum.index(1) + 1}, {row_sum.index(1) + 1})"
     return "Corrupt"
+
+primes = [2, 3]
+def factor_list(number: int) -> list[int]:
+    """
+    Challenge that returns a number's factors in a list.
+
+    Args:
+        number (int): Number to get factors from.
+
+    Returns:
+        list[int]: List of factors in a number.
+    """
+    result = []
+    sign = -1 if number < 0 else 1
+    number *= sign
+    for prime in primes:
+        while number%prime == 0:
+            number //= prime
+            result.append(prime)
+    factor = prime + 2
+    while number != 1:
+        for prime in primes:
+            if factor%prime == 0:
+                break
+        else:
+            primes.append(factor)
+            while number%factor == 0:
+                number //= factor
+                result.append(factor)
+        factor += 2
+
+    result[0] *= sign
+    return result
