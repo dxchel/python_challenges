@@ -3,7 +3,7 @@
 Xchel's logic challenges testing module
 """
 import pytest
-from tests import decrypt_finder, matrix_parity
+from challenges import decrypt_finder, matrix_parity
 
 decrypt_data = (
 (
