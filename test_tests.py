@@ -3,7 +3,7 @@
 Xchel's logic challenges testing module
 """
 import pytest
-from tests import decrypt_finder
+from tests import decrypt_finder, matrix_parity
 
 decrypt_data = (
 (
@@ -89,3 +89,10 @@ def test_decrypt_finder(string, expected):
     Function that tests decrypt_finder using previously expected results.
     """
     assert decrypt_finder(string) == expected
+
+@pytest.mark.parametrize("matrix, expected", matrix_data)
+def test_matrix_parity(matrix, expected):
+    """
+    Function that tests matrix_parity using previously expected results.
+    """
+    assert matrix_parity(matrix) == expected
