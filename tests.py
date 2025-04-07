@@ -42,3 +42,27 @@ def decrypt_finder(string: str) -> tuple[int, int]:
         if count > result[0]:
             result = (count, shift)
     return result
+
+def matrix_parity(matrix: str) -> str:
+    """
+    Challenge that checks if a matrix's rows and columns all sum an even number.
+
+    The incoming string will be the matrix to check
+
+    Args:
+        matrix (str): String containing matrix to check.
+
+    Returns:
+        str: OK for pass, Change (int, int) for only one error, Corrupt for other cases.
+    """
+    matrix = list(map(lambda row: row.strip().split(), matrix.strip().split('\n')))
+    row_sum = list(map(lambda row: row.count('1')%2, matrix))
+    column_sum = list(map(lambda column: column.count('1')%2, zip(*matrix)))
+    print(matrix)
+    print(row_sum)
+    print(column_sum)
+    if sum(row_sum) + sum(column_sum) == 0:
+        return "OK"
+    if sum(row_sum) == sum(column_sum) == 1:
+        return f"Change ({column_sum.index(1) + 1}, {row_sum.index(1) + 1})"
+    return "Corrupt"
