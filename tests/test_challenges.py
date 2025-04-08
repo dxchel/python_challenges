@@ -3,7 +3,7 @@
 Xchel's logic challenges testing module
 """
 import pytest
-from challenges import decrypt_finder, matrix_parity, factor_list
+from challenges import decrypt_finder, matrix_parity, factor_list, top_routes
 
 decrypt_data = (
 (
@@ -97,6 +97,27 @@ factor_data = (
         (-2849, [-7, 11, 37]),
         )
 
+routes_data = (
+(
+    """
+    example.1. A 123.123.123.1
+    example.2. AAAA 1fba:1::f
+    example.3. CTYPE trash
+    example.4. CTYPE example.3.
+    example.5. CTYPE example.1.
+    example.6. CTYPE example.7.
+    example.7. CTYPE example.8.
+    example.8. CTYPE example.2.
+    example.9. CTYPE example.10.
+    example.10. CTYPE example.11.
+    example.11. CTYPE example.0.
+    """,
+    '\n'.join("""1fba:1::f-4
+    123.123.123.1-2
+    """.split())
+    ),
+)
+
 @pytest.mark.parametrize("string, expected", decrypt_data)
 def test_decrypt_finder(string, expected):
     """
@@ -117,3 +138,10 @@ def test_factor_list(number, expected):
     Function that tests factor_list using previously expected results.
     """
     assert factor_list(number) == expected
+
+@pytest.mark.parametrize("string, expected", routes_data)
+def test_top_routes(string, expected):
+    """
+    Function that tests top_routes using previously expected results.
+    """
+    assert top_routes(string) == expected

@@ -3,6 +3,8 @@
 Xchel's logic challenges module
 """
 import functools
+import re
+from collections import Counter
 
 def decrypt_finder(string: str) -> tuple[int, int]:
     """
@@ -99,3 +101,39 @@ def factor_list(number: int) -> list[int]:
 
     result[0] *= sign
     return result
+
+def top_routes(routes: str) -> str:
+    """
+    Challenge that returns the top 5 routes found in a string.
+
+    Args:
+        routes (str): routes to take into account.
+
+    Returns:
+        str: List of top routes and times it is mentioned.
+    """
+    def is_ip(string: str) -> bool:
+        """Checks if string is a valid IP."""
+        result = bool(re.match(r"((\d{1,3}\.){3}\d{1,3})|(([0-9a-f]{0,4}\:){3}[0-9a-f]{0,4})",
+                             string))
+        return result
+    routes = dict(map(lambda row: (row[0], row[2]),
+                      filter(lambda row: row[1] == "CTYPE" or
+                                         (row[1] in {"A", "AAAA"} and is_ip(row[2])),
+                             map(lambda row: row.strip().split(),
+                                 routes.strip().split('\n')))))
+
+    result = Counter()
+    for ip in routes.values():
+        cycle = set()
+        print(ip)
+        while ip not in cycle:
+            if is_ip(ip):
+                result[ip] += 1
+                break
+            if ip == "":
+                break
+            cycle.add(ip)
+            ip = routes.get(ip, "")
+
+    return '\n'.join(map(lambda entry: entry[0]+"-"+str(entry[1]), result.most_common(5)))
